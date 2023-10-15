@@ -89,20 +89,23 @@ public class PlayerController : MonoBehaviour
         objTransform.position = new Vector3(x, y, 0);
     }
 
-    public void IsCollidingWithObject()
+    public void IsCollidingWithObject(GameObject other)
     {
-        if (horizV > 0){
-            horizA = 0;
-            horizV = 0;
-            x -= 0.01f;
-        } else if (horizV < 0){
-            horizA = 0;
-            horizV = 0;
-            x += 0.01f;            
+        if(!other.tag.Equals("Platform")){
+            if (horizV > 0){
+                horizA = 0;
+                horizV = 0;
+                x -= 0.01f;
+            } else if (horizV < 0){
+                horizA = 0;
+                horizV = 0;
+                x += 0.01f;            
+            }
         }
 
         if (vertV > 0){
             vertV = 0;
+            y -= 0.1f;
         } else if (vertV < 0){
             vertV = 0;
             y += 0.01f;
