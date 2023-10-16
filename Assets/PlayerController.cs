@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     public float horizA;
     private float x;
 
-    private bool isJumping;
+    private bool isGrounded;
     public float vertV;
     private float jumpHeight;
     private float gravity;
@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
         horizA = 0;
         x = 0;
 
-        isJumping = false;
+        isGrounded = true;
         vertV = 0;
         jumpHeight = 2.5f;
         gravity = -6;
@@ -74,13 +74,16 @@ public class PlayerController : MonoBehaviour
         x = x + horizV * Time.deltaTime;
 
 
-        if (!isJumping){
+        if (isGrounded){
             if (Input.GetKeyDown(KeyCode.Space)){
                 // formula from unity documentation
                 vertV += Mathf.Sqrt(jumpHeight * -3 * gravity);
 
-                isJumping = true;
+                isGrounded = false;
             }
+
+            if(Mathf.Round(vertV) < 0)
+                isGrounded = false;
         }
 
         vertV = vertV + gravity * Time.deltaTime;
@@ -89,27 +92,31 @@ public class PlayerController : MonoBehaviour
         objTransform.position = new Vector3(x, y, 0);
     }
 
-    public void IsCollidingWithObject(GameObject other)
+    public void IsCollidingWithObject(GameObject other, float otherX, float otherY, float otherWidth, float otherHeight)
     {
-        if(!other.tag.Equals("Platform")){
-            if (horizV > 0){
+        if(other.tag.Equals("Wall")){
+            float width = this.gameObject.transform.localScale.x;
+            if (horizV > 0 && x - width / 2 < otherX - otherWidth / 2){
                 horizA = 0;
                 horizV = 0;
-                x -= 0.01f;
-            } else if (horizV < 0){
+                x = otherX - otherWidth / 2 - width / 2;
+            } else if (horizV < 0 && x + width / 2 > otherX + otherWidth / 2){
                 horizA = 0;
                 horizV = 0;
-                x += 0.01f;            
+                x = otherX + otherWidth / 2 + width / 2;            
             }
         }
 
-        if (vertV > 0){
-            vertV = 0;
-            y -= 0.1f;
-        } else if (vertV < 0){
-            vertV = 0;
-            y += 0.01f;
-            isJumping = false;
-        }
+        if(other.tag.Equals("Platform")){
+            float height = this.gameObject.transform.localScale.y;
+            if (vertV > 0){
+                vertV = 0;
+                y = otherY - otherHeight / 2 - height / 2;
+            } else if (vertV < 0){
+                vertV = 0;
+                y = otherY + otherHeight / 2 + height / 2;
+                isGrounded = true;
+            }
+        }    
     }
 }

@@ -27,7 +27,7 @@ public class Obstacle : MonoBehaviour
     void Update()
     {
         if(CollidingWith(player.gameObject.transform)){
-            player.IsCollidingWithObject(this.gameObject);
+            player.IsCollidingWithObject(this.gameObject, x, y, width, height);
         }
     }
 
