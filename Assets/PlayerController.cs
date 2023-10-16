@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     public float horizV;
     private float maxHorizV;
     public float horizA;
+    private float decelMultiplier;
     private float x;
 
     private bool isGrounded;
@@ -24,6 +25,7 @@ public class PlayerController : MonoBehaviour
         horizV = 0;
         maxHorizV = 6;
         horizA = 0;
+        decelMultiplier = 16;
         x = 0;
 
         isGrounded = true;
@@ -62,7 +64,13 @@ public class PlayerController : MonoBehaviour
             }
 
         } else {
-            horizA = horizA - (horizV * 16) * Time.deltaTime;
+            if(isGrounded){
+                decelMultiplier = 16;
+            } else {
+                decelMultiplier = 0.5f;
+            }
+
+            horizA = horizA - (horizV * decelMultiplier) * Time.deltaTime;
 
             if (Mathf.Round(horizV) == 0){
                 horizA = 0;
