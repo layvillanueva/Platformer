@@ -9,11 +9,13 @@ public class Collidable : MonoBehaviour
     protected float y;
     protected float height;
 
+    protected Transform objTransform;
+
     protected PlayerController player;
 
     void Start()
     {
-        Transform objTransform = this.gameObject.transform;
+        objTransform = this.gameObject.transform;
 
         x = objTransform.position.x;
         width = objTransform.localScale.x;
@@ -21,13 +23,17 @@ public class Collidable : MonoBehaviour
         y = objTransform.position.y;
         height = objTransform.localScale.y;
 
+        if(this.gameObject.tag.Equals("Wall")){
+            width += 0.1f;
+        }
+
         player = (PlayerController)FindObjectOfType(typeof(PlayerController));
     }
 
     void Update()
     {
         if(CollidingWith(player.gameObject.transform)){
-            player.IsCollidingWithObject(this.gameObject, x, y, width, height);
+            player.IsCollidingWithObject(this, x, y, width, height);
         }
     }
 

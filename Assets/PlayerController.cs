@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
 
         isGrounded = true;
         vertV = 0;
-        jumpHeight = 2.5f;
+        jumpHeight = 3;
         gravity = -6;
         y = 1;
     }
@@ -100,9 +100,9 @@ public class PlayerController : MonoBehaviour
         objTransform.position = new Vector3(x, y, 0);
     }
 
-    public void IsCollidingWithObject(GameObject other, float otherX, float otherY, float otherWidth, float otherHeight)
+    public void IsCollidingWithObject(Collidable other, float otherX, float otherY, float otherWidth, float otherHeight)
     {
-        if(other.tag.Equals("Wall")){
+        if(other.gameObject.tag.Equals("Wall")){
             float width = this.gameObject.transform.localScale.x;
             if (horizV > 0 && x - width / 2 < otherX - otherWidth / 2){
                 horizA = 0;
@@ -115,13 +115,13 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if(other.tag.Equals("Platform")){
+        if(other.gameObject.tag.Equals("Platform")){
             float height = this.gameObject.transform.localScale.y;
             if (vertV > 0){
                 vertV = 0;
-                y = otherY - otherHeight / 2 - height / 2;
+                y = otherY - otherHeight / 2 - height / 2 - 0.1f;
             } else if (vertV < 0){
-                vertV = 0;
+                vertV = -1;
                 y = otherY + otherHeight / 2 + height / 2;
                 isGrounded = true;
             }
