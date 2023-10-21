@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -18,6 +19,9 @@ public class PlayerController : MonoBehaviour
     private float gravity;
     private float y;
 
+    private int score;
+    public Text displayText;
+
     void Start()
     {
         objTransform = this.gameObject.transform;
@@ -33,6 +37,8 @@ public class PlayerController : MonoBehaviour
         jumpHeight = 3;
         gravity = -6;
         y = 1;
+
+        score = 0;
     }
 
     void Update()
@@ -98,6 +104,8 @@ public class PlayerController : MonoBehaviour
         y = y + vertV * Time.deltaTime;
 
         objTransform.position = new Vector3(x, y, 0);
+
+        displayText.text = score.ToString();
     }
 
     public void IsCollidingWithObject(Collidable other, float otherX, float otherY, float otherWidth, float otherHeight)
@@ -136,5 +144,10 @@ public class PlayerController : MonoBehaviour
 
         x = destinationX;
         y = destinationY;
+    }
+
+    public void AddScore()
+    {
+        score++;
     }
 }
