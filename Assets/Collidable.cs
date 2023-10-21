@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Obstacle : MonoBehaviour
+public class Collidable : MonoBehaviour
 {
-    private float x;
-    private float width;
-    private float y;
-    private float height;
+    protected float x;
+    protected float width;
+    protected float y;
+    protected float height;
 
-    private PlayerController player;
+    protected PlayerController player;
 
     void Start()
     {
@@ -31,7 +31,7 @@ public class Obstacle : MonoBehaviour
         }
     }
 
-    bool CollidingWith(Transform other)
+    protected bool CollidingWith(Transform other)
     {
         Vector3 otherPosition = other.position;
         Vector3 otherScale = other.localScale;

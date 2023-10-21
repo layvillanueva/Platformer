@@ -127,4 +127,14 @@ public class PlayerController : MonoBehaviour
             }
         }    
     }
+    
+    public void TeleportTo(float destinationX, float destinationY)
+    {
+        horizA = 0;
+        horizV = 0;
+        vertV = 0;
+
+        x = destinationX;
+        y = destinationY;
+    }
 }

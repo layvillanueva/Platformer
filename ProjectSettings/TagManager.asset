@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Wall
   - Platform
+  - Teleport
   layers:
   - Default
   - TransparentFX
